@@ -2,12 +2,44 @@
 
 - name: initial-setup
   hosts: all
+  become: true
   tasks:
   - name: create password hash
     set_fact: 
       pw_hash: "{{ 'password' | password_hash('sha512') }}"
     register: results
     when: inventory_hostname in groups['local']
+  - name: create scc and Roles directory
+    file:
+      path: "{{ item }}"
+      state: directory
+      mode: '0755'
+    loop:
+      - ./Roles
+      - ./scc
+    when: inventory_hostname in groups['local']
+  - name: download stig files
+    unarchive:
+      src: "{{ item }}"
+      dest: ./scc
+      remote_src: true
+    when: inventory_hostname in groups['local']
+    loop:
+      - 'https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/scc-5.10.1_rhel9_oracle-linux9_x86_64_bundle.zip'
+      - 'https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_RHEL_9_V2R3_STIG.zip'
+      - 'https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_RHEL_9_V2R3_STIG_Ansible.zip'
+  - name: wait 3 seconds
+    pause:
+      seconds: 3
+  - name: unzip rhel9STIG-ansible.zip
+    unarchive: 
+      src: ./scc/rhel9STIG-ansible.zip
+      dest: ./scc/
+    when: inventory_hostname in groups['local']
+  - name: copy ansible role to Roles
+    copy:
+      src: ./scc/roles/rhel9STIG
+      dest: ./Roles/rhel9STIG
   - name: create user
     user:
       name: ansible
@@ -39,13 +71,20 @@
       - 'dnf config-manager --add-repo=file:///mnt/BaseOS'
       - 'echo "gpgcheck=0" >> /etc/yum.repos.d/mnt_BaseOS.repo'
       - 'echo "gpgcheck=0" >> /etc/yum.repos.d/mnt_AppStream.repo'
+  - name: copy scc rpm to node
+    copy: 
+      src: ./scc/scc-5.10.1_rhel9_x86_64
+      dest: /tmp
+    when: inventory_hostname in groups['web']
   - name: install packages
     yum:
       name: "{{ item }}"
       state: latest
+      disable_gpg_check: true
     when: inventory_hostname in groups['web']
     loop:
-      - httpd
+      - 'httpd'
+      - '/tmp/scc-5.10.1_rhel9_x86_64/scc-5.10.1.rhel9.x86_64.rpm'
   - name: open http in firewalld
     firewalld:
       service: http
