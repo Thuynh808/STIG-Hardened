@@ -39,7 +39,7 @@
   - name: copy ansible role to Roles
     copy:
       src: ./scc/roles/rhel9STIG
-      dest: ./Roles/rhel9STIG
+      dest: ./Roles/
   - name: create user
     user:
       name: ansible

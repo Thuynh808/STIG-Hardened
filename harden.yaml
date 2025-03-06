@@ -1,6 +1,6 @@
 ---
 - name: run scc role on rhel webserver
-  hosts: web
+  hosts: node1
   become: true
   roles:
     - rhel9STIG
