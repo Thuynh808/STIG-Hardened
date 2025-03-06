@@ -47,9 +47,9 @@ Hit 9 and Enter to exit, save changes, and perform scan
 General Workflow for STIG Hardening (Using SCC)
 
 1. Understand the Scope & Compliance Requirements
-	•	Identify which operating systems (RHEL, Windows Server, Ubuntu) and applications (Apache, SQL Server) need STIG compliance.
-	•	Determine the STIG benchmark version (latest from DISA cyber.mil).
-	•	Clarify if we are targeting DoD STIG Level 1 (basic security) or Level 2 (higher security with more restrictions).
+	- Identify which operating systems (RHEL, Windows Server, Ubuntu) and applications (Apache, SQL Server) need STIG compliance.
+	- Determine the STIG benchmark version (latest from DISA cyber.mil).
+	- Clarify if we are targeting DoD STIG Level 1 (basic security) or Level 2 (higher security with more restrictions).
 
 Deliverables:
 - ✅ Project Plan/Scope Document – Defines systems, STIG baselines, deadlines.
@@ -57,9 +57,9 @@ Deliverables:
 
 
 2. Perform Initial STIG Compliance Assessment
-	•	Run SCAP Compliance Checker (SCC) for the initial compliance scan.
-	•	Generate STIG Viewer Checklist (.ckl) files for each system.
-	•	Identify major vulnerabilities and areas that need hardening.
+	- Run SCAP Compliance Checker (SCC) for the initial compliance scan.
+	- Generate STIG Viewer Checklist (.ckl) files for each system.
+	- Identify major vulnerabilities and areas that need hardening.
 
 Command Example:
 
@@ -72,9 +72,9 @@ Deliverables:
 
 
 3. Apply STIG Hardening (Automated & Manual Fixes)
-	•	Automate Remediation using Ansible STIG role (if available for the OS).
-	•	Manually apply fixes for non-automatable rules (e.g., physical security policies, password complexity changes).
-	•	Update system audit configurations (e.g., auditd, rsyslog for Linux, Event Viewer for Windows).
+	- Automate Remediation using Ansible STIG role (if available for the OS).
+	- Manually apply fixes for non-automatable rules (e.g., physical security policies, password complexity changes).
+	- Update system audit configurations (e.g., auditd, rsyslog for Linux, Event Viewer for Windows).
 
 Ansible Example for RHEL STIG Hardening:
 
@@ -88,9 +88,9 @@ Deliverables:
 
 
 4. Perform Post-Hardening Validation
-	•	Re-run SCC to verify improvements.
-	•	Compare pre- and post-STIG compliance scores.
-	•	Generate final STIG Viewer .ckl files for each system.
+	- Re-run SCC to verify improvements.
+	- Compare pre- and post-STIG compliance scores.
+	- Generate final STIG Viewer .ckl files for each system.
 
 Command Example:
 
@@ -103,11 +103,11 @@ Deliverables:
 
 
 5. Final Documentation & Handoff
-	•	Prepare STIG Compliance Checklist in .ckl format.
-	•	Provide System Security Plan (SSP) with details on:
-	•	Hardening steps taken.
-	•	Remaining exceptions (e.g., workarounds for software limitations).
-	•	Continuous monitoring plan.
+	- Prepare STIG Compliance Checklist in .ckl format.
+	- Provide System Security Plan (SSP) with details on:
+	- Hardening steps taken.
+	- Remaining exceptions (e.g., workarounds for software limitations).
+	- Continuous monitoring plan.
 
 Deliverables:
 - ✅ Final STIG Compliance Report & Checklist (.ckl)
@@ -116,12 +116,12 @@ Deliverables:
 
 
 
-What the Manager Expects from Us
-	- 1.	A structured and repeatable hardening process – Using SCC and Ansible where possible.
-	- 2.	A measurable improvement in compliance – Targeting 80%+ compliance.
-	- 3.	Clear documentation of changes – STIG checklist (.ckl), system hardening guides.
-	- 4.	Minimal disruption to operations – Proper testing before enforcing changes.
-	- 5.	A finalized report and compliance package – Ready for submission to security auditors.
+- What the Manager Expects from Us:
+  - A structured and repeatable hardening process – Using SCC and Ansible where possible.
+	 - A measurable improvement in compliance – Targeting 80%+ compliance.
+	 - Clear documentation of changes – STIG checklist (.ckl), system hardening guides.
+	 - Minimal disruption to operations – Proper testing before enforcing changes.
+	 - A finalized report and compliance package – Ready for submission to security auditors.
 
 
 
