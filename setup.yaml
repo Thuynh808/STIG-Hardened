@@ -40,69 +40,29 @@
     copy:
       src: ./scc/roles/rhel9STIG
       dest: ./Roles/
+    when: inventory_hostname in groups['local']
   - name: create user
     user:
       name: ansible
       password: "{{ hostvars[groups['local'][0]].pw_hash }}"
-    when: inventory_hostname in groups['web']
+    when: inventory_hostname in groups['rhel9']
   - name: sudo privileges 
     shell: 'echo "ansible ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ansible'
-    when: inventory_hostname in groups['web']
+    when: inventory_hostname in groups['rhel9']
   - name: copy control root public key to node
     authorized_key:
       user: ansible
       state: present
       key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
-    when: inventory_hostname in groups['web']
-  - name: mount
-    mount:
-      path: /mnt
-      src: /dev/sr0
-      fstype: iso9660
-      opts: ro,noauto
-      state: mounted
-    when: inventory_hostname in groups['web']
-    tags: mount
-  - name: setup repo
-    shell: "{{ item }}"
-    when: inventory_hostname in groups['web']
-    loop:
-      - 'dnf config-manager --add-repo=file:///mnt/AppStream'
-      - 'dnf config-manager --add-repo=file:///mnt/BaseOS'
-      - 'echo "gpgcheck=0" >> /etc/yum.repos.d/mnt_BaseOS.repo'
-      - 'echo "gpgcheck=0" >> /etc/yum.repos.d/mnt_AppStream.repo'
+    when: inventory_hostname in groups['rhel9']
   - name: copy scc rpm to node
     copy: 
       src: ./scc/scc-5.10.1_rhel9_x86_64
       dest: /tmp
-    when: inventory_hostname in groups['web']
-  - name: install packages
-    yum:
-      name: "{{ item }}"
-      state: latest
-      disable_gpg_check: true
-    when: inventory_hostname in groups['web']
-    loop:
-      - 'httpd'
-      - '/tmp/scc-5.10.1_rhel9_x86_64/scc-5.10.1.rhel9.x86_64.rpm'
-  - name: open http in firewalld
-    firewalld:
-      service: http
-      state: enabled
-      permanent: true
-      immediate: true
-    when: inventory_hostname in groups['web']
-  - name: restart firewalld
-    service:
-      name: firewalld
-      state: restarted
-    when: inventory_hostname in groups['web']
-  - name: start and enable httpd
-    service:
-      name: httpd
-      state: restarted
-      enabled: true
-    when: inventory_hostname in groups['web']
+    when: inventory_hostname in groups['rhel9']
+  - name: install scc on rhel
+    shell: 'dnf install /tmp/scc-5.10.1_rhel9_x86_64/scc-5.10.1.rhel9.x86_64.rpm --nogpgcheck'
+    when: inventory_hostname in groups['rhel9']
   - name: toggle off ask_pass
     lineinfile:
       path: ./ansible.cfg
