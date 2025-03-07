@@ -1,0 +1,11 @@
+---
+- name: run stig scan
+  hosts: rocky9
+  become: true
+  tasks:
+  - name: run scan
+    shell: '/opt/scc/cscc'
+    register: output
+  - name: debug
+    debug:
+      var: output
