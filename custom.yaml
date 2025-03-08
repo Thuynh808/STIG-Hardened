@@ -1,0 +1,62 @@
+---
+- name: custom remediate
+  hosts: rhel9
+  become: true
+  tasks:
+  - name: ensure /etc/gdm directory exists
+    file:
+      path: /etc/gdm
+      state: directory
+      mode: '0755'
+  - name: create a dummy GDM configuration file since GDM is not installed
+    copy:
+      dest: /etc/gdm/custom.conf
+      content: |
+        [daemon]
+        AutomaticLoginEnable=false
+      mode: '0644'
+  - name: disable the "nullok" option via authselect
+    command: "{{ item }}"
+    loop:
+      - authselect select sssd --force 
+      - authselect enable-feature without-nullok
+      - authselect apply-changes
+  - name: ensure kernel.yama.ptrace_scope is set in sysctl configuration
+    copy:
+      dest: /etc/sysctl.d/99-stig-hardening.conf
+      content: |
+        kernel.yama.ptrace_scope = 1
+      mode: '0644'
+  - name: reload sysctl settings to apply changes
+    command: sysctl --system
+  - name: ensure /home has nodev, nosuid, and noexec options in /etc/fstab
+    lineinfile:
+      path: /etc/fstab
+      regexp: '^(.*\s+/home\s+\S+\s+)(\S*)\s+(\d+\s+\d+)$'
+      line: '\1\2,nodev,nosuid,noexec \3'
+      backrefs: yes
+  - name: remount /home with new options
+    command: mount -o remount /home
+  - name: ensure /boot has the nosuid option in /etc/fstab
+    lineinfile:
+      path: /etc/fstab
+      regexp: '^(.*\s+/boot\s+\S+\s+)(\S*)\s+(\d+\s+\d+)$'
+      line: '\1\2,nosuid \3'
+      backrefs: yes
+  - name: remount /boot with the nosuid option
+    command: mount -o remount /boot
+  - name: enable pcscd
+    service:
+      name: pcscd
+      state: restarted
+      enabled: true
+  - name: Remove umask 022 condition in /etc/bashrc
+    replace:
+      path: /etc/bashrc
+      regexp: '^\s*\[ `umask` -eq 0 \] && umask 022'
+      replace: ''
+  - name: Ensure umask 077 is present in /etc/bashrc
+    lineinfile:
+      path: /etc/bashrc
+      regexp: '^\s*umask\s+\d+'
+      line: 'umask 077'
