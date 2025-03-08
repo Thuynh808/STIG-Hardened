@@ -2,43 +2,90 @@
 
 Harden a **RHEL 9** for STIG compliance
 
-
 https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_RHEL_9_V2R3_STIG.zip
 
 https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_RHEL_9_V2R3_STIG_Ansible.zip
 
 https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_STIGViewer-win32_x64-3-5-0.zip
 
+![elastic_labs](https://i.imgur.com/BsQNMcw.png)
 
----
+## Project Overview
+The elastic_labs project is designed 
 
-## Perform initial scan
+## Objectives
+- Automate majority of the setup using Ansible, from system configuration to application deployment
+- Integrate Elasticsearch and Kibana for data indexing and visualization
 
+## Components
+- **Control Node:** Rocky vm used to setup, scan, and remediate for stig compliance
+- **Node1:** Rhel9 vm as our target machine to make stig compliant
+- **Ansible:** to automate setup, scan, and remediate with playbooks
+- **SCC:** scap scanner for scanner for compliance
+
+## Prerequisites
+Before we begin, ensure the following are prepared:
+- 1 Rocky 9 VM
+- 1 RHEL 9 VM
+
+
+| Server           | Role                            | CPU | RAM  |
+|------------------|---------------------------------|-----|------|
+| Control(Rocky 9)  | Management                     | 4   | 8 GB |
+| Node1(rhel 9)    | Target vm for compliance        | 4   | 8 GB |     
+
+## Setup Environment
+  
+- **Install `git` and `ansible-core`**
+  
+  ```bash
+  dnf install -y git ansible-core
+  ```
+- **Clone the repository**
+  
+  ```bash
+  git clone https://github.com/Thuynh808/STIG-Hardened
+  cd STIG-Hardened
+  ```
+- **Configure inventory `hosts`**
+  
+  ```bash
+  vim inventory
+  ```
+- **Run setup.yaml playbook**
+  
+  ```bash
+  ansible-playbook setup.yaml -vv
+  ```
+  <details close>
+  <summary> <h4>Playbook Breakdown</h4> </summary>
+    
+  - Install collections from requirements file
+  - Generate root SSH keypair
+
+  </details>
+
+## Configure and Perform Initial Scan
+
+- SSH into our rhel vm:
+```bash
 ssh ansible@`<rhel-stig-ip>`
-
+```
+- Configure scanning options:  
+```bash
 sudo /opt/scc/cscc --config
-
-Hit Enter to Acknowledge the change log
-
-Hit 1 and Enter 1: Configure SCAP content.
-
-Hit 1-8 and Enter to deselect all content
-
-Hit 6 and Enter to select RHEL_9_STIG
-
-Hit 0 and Enter to return to the main menu.
-
-Hit 6 and enter Configuration Options.
-
-Hit 1 and enter Scanning Options
-
-Hit 1 and Enter to Turn on option 1, "Run all SCAP content regardless of applicability"
-
-Hit 0 and Enter to return to the previous.
-
-Hit 0 and Enter to return to the main menu.
-
-Hit 9 and Enter to exit, save changes, and perform scan
+```
+- Hit Enter to Acknowledge the change log
+- Hit `1` and `Enter` to select `Configure SCAP content`
+- Hit `1-8` and `Enter` to deselect all content
+- Hit `6` and `Enter` to select `RHEL_9_STIG`
+- Hit `0` and `Enter` to return to the main menu
+- Hit `6` and `Enter` to select `Configuration Options`
+- Hit `1` and `Enter` to select `Scanning Options`
+- Hit `1` and `Enter` to select `Run all SCAP content regardless of applicability`
+- Hit `0` and `Enter` to return to the previous menu
+- Hit `0` and `Enter` to return to the main menu
+- Hit `9` and `Enter` to exit, save changes, and perform scan
 
 ---
 
