@@ -37,6 +37,14 @@
       src: ./scc/roles/rhel9STIG
       dest: ./Roles/
     when: inventory_hostname in groups['local']
+  - name: generate scan executable
+    copy:
+      dest: ./scan.sh
+      mode: '0755'
+      content: |
+        #!/bin/bash
+        ssh root@{{ hostvars['node1']['ansible_host'] }} sudo /opt/scc/cscc
+    when: inventory_hostname in groups['local']
   - name: create user
     user:
       name: ansible

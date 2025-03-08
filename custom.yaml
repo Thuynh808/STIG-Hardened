@@ -50,13 +50,57 @@
       name: pcscd
       state: restarted
       enabled: true
-  - name: Remove umask 022 condition in /etc/bashrc
+  - name: remove umask 022 condition in /etc/bashrc
     replace:
       path: /etc/bashrc
       regexp: '^\s*\[ `umask` -eq 0 \] && umask 022'
       replace: ''
-  - name: Ensure umask 077 is present in /etc/bashrc
+  - name: remove umask 022 conditional block from /etc/csh.cshrc
+    replace:
+      path: /etc/csh.cshrc
+      regexp: '^\s*if \( `umask` == 0 \) then\s*\n\s*umask 022\s*\n\s*endif\s*\n'
+      replace: ''
+  - name: ensure /etc/profile.d/tmout.sh exists and sets TMOUT=600
+    copy:
+      dest: /etc/profile.d/tmout.sh
+      content: |
+        #!/bin/bash
+        declare -xr TMOUT=600
+      mode: '0644'
+  - name: ensure /etc/profile.d/tmout.sh is executable
+    file:
+      path: /etc/profile.d/tmout.sh
+      mode: '0755'
+  - name: ensure X11Forwarding is set to no in /etc/ssh/sshd_config
     lineinfile:
-      path: /etc/bashrc
-      regexp: '^\s*umask\s+\d+'
-      line: 'umask 077'
+      path: /etc/ssh/sshd_config
+      regexp: '^X11Forwarding\s+'
+      line: 'X11Forwarding no'
+  - name: restart SSH service to apply changes
+    systemd:
+      name: sshd
+      state: restarted
+  - name: set password max age to 60 days
+    shell: "passwd -x 60 {{ item }}"
+    loop:
+      - ansible
+      - root
+  - name: enforce a 24 hour minimum password lifetime
+    shell: "passwd -n 1 {{ item }}"
+    loop:
+      - ansible
+  - name: ensure StopIdleSessionSec=900 is set in /etc/systemd/logind.conf
+    lineinfile:
+      path: /etc/systemd/logind.conf
+      regexp: '^#?StopIdleSessionSec='
+      line: 'StopIdleSessionSec=900'
+  - name: restart systemd-logind service to apply changes
+    systemd:
+      name: systemd-logind
+      state: restarted
+  - name: ensure "pam_wheel.so use_uid" is uncommented in /etc/pam.d/su
+    replace:
+      path: /etc/pam.d/su
+      regexp: '^\s*#\s*(auth\s+required\s+pam_wheel\.so\s+use_uid)'
+      replace: '\1'
+
