@@ -1,6 +1,6 @@
 ---
 - name: run scc role
-  hosts: rocky9
+  hosts: rhel9
   become: true
   roles:
     - rhel9STIG

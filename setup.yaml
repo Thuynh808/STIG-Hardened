@@ -27,9 +27,6 @@
     loop:
       - 'https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/scc-5.10.1_rhel9_oracle-linux9_x86_64_bundle.zip'
       - 'https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_RHEL_9_V2R3_STIG_Ansible.zip'
-  - name: wait 3 seconds
-    pause:
-      seconds: 3
   - name: unzip rhel9STIG-ansible.zip
     unarchive: 
       src: ./scc/rhel9STIG-ansible.zip
@@ -44,24 +41,24 @@
     user:
       name: ansible
       password: "{{ hostvars[groups['local'][0]].pw_hash }}"
-    when: inventory_hostname in groups['rocky9']
+    when: inventory_hostname in groups['rhel9']
   - name: sudo privileges 
     shell: 'echo "ansible ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ansible'
-    when: inventory_hostname in groups['rocky9']
+    when: inventory_hostname in groups['rhel9']
   - name: copy control root public key to node
     authorized_key:
       user: ansible
       state: present
       key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
-    when: inventory_hostname in groups['rocky9']
+    when: inventory_hostname in groups['rhel9']
   - name: copy scc rpm to node
     copy: 
       src: ./scc/scc-5.10.1_rhel9_x86_64
       dest: /tmp
-    when: inventory_hostname in groups['rocky9']
+    when: inventory_hostname in groups['rhel9']
   - name: install scc
     shell: 'dnf install /tmp/scc-5.10.1_rhel9_x86_64/scc-5.10.1.rhel9.x86_64.rpm --nogpgcheck -y'
-    when: inventory_hostname in groups['rocky9']
+    when: inventory_hostname in groups['rhel9']
   - name: toggle off ask_pass
     lineinfile:
       path: ./ansible.cfg
