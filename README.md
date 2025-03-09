@@ -105,7 +105,7 @@ ssh ansible@`<node1-ip>`
 ```bash
 sudo /opt/scc/cscc --config
 ```
-- Hit Enter to Acknowledge the change log
+- Hit `Enter` to acknowledge the change log
 - Hit `1` and `Enter` to select `Configure SCAP content`
 - Hit `1-8` and `Enter` to deselect all content
 - Hit `6` and `Enter` to select `RHEL_9_STIG`
