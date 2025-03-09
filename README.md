@@ -25,28 +25,25 @@ Before we begin, ensure the following are prepared:
 
 ## Setup Environment
   
-- **Install `git` and `ansible-core`:**
+**Install `git` and `ansible-core`:**
 ```bash
 dnf install -y git ansible-core
 ```
-- **Clone the repository and Install Ansible collections:**
+**Clone the repository and Install Ansible collections:**
 ```bash
 git clone https://github.com/Thuynh808/STIG-Hardened
 cd STIG-Hardened
 ansible-galaxy install -r requirements.yaml
 ```
-- **Configure inventory `hosts` with proper IPs:**
+**Configure inventory `hosts` with proper IPs:**
 ```bash
 vim inventory
 ```
-- **Run setup.yaml playbook:**
+**Run setup.yaml playbook:**
 ```bash
 ansible-playbook setup.yaml -vv
 ```
-
-  <details close>
-  <summary> <h4>Playbook Breakdown</h4> </summary>
-    
+The playbook will:
   - Generates a SHA-512 hashed password and stores it as a fact for later use. Only runs on the control node.
   - Ensures the Roles and scc directories exist with correct permissions
   - Downloads STIG compliance files and the SCC tool bundle from DoD's website
@@ -60,17 +57,51 @@ ansible-playbook setup.yaml -vv
   - Installs SCC using dnf without GPG checks on RHEL 9 nodes
   - Modifies ansible.cfg to disable the ask_pass setting
   - Updates ansible.cfg to use ansible as the default remote user
-  </details>
+
+**Confirm Successful Execution:**
+```bash
+ansible --version
+terraform --version
+podman --version
+python3 --version
+pip --version
+pip list | egrep -i "Flask|boto3|botocore|requests" 
+aws configure list
+aws sts get-caller-identity
+aws ecr list-images --repository-name breach-tracker --region us-east-1
+```
+
+<details close>
+  <summary> <h3>Image Results</h3> </summary>
+    
+![breach-tracker](https://i.imgur.com/E7iWTvv.png)
+
+- **Dependencies**:
+  - Python 3.9.21 and pip are installed along with required libraries:
+    - boto3
+    - botocore
+    - Flask
+    - requests 
+  - Ansible 2.15.13  installed, configured, and ready for use
+  - Terraform 1.10.5 installed and functional
+  - Podman 5.2.2 installed for container management
+- **AWS CLI Configuration**:
+  - AWS credentials are set up using a shared credentials file, and the region is configured as us-east-1
+  - The IAM user is verified via sts get-caller-identity, confirming its UserId, Account, and ARN
+- **ECR Repository Status**:
+  - Amazon Elastic Container Registry (ECR) repository named `breach-tracker` exists, and tagged as `breach-tracker-latest`
+</details>
 
 ---
+<br>
 
 ## Configure and Perform Initial Scan
 
-- **SSH into our rhel vm:**
+**SSH into our rhel vm:**
 ```bash
 ssh ansible@`<node1-ip>`
 ```
-- **Configure scanning options:**  
+**Configure scanning options:**  
 ```bash
 sudo /opt/scc/cscc --config
 ```
@@ -99,13 +130,13 @@ Opening the non-compliance html results we can determine::
 
 ---
 
-## Apply STIG Hardening Ansible Automation and Validate
+## Apply STIG Hardening Ansible Role and Validate
 
-- **Run `harden.yaml` playbook to automate remediation:**
+**Run `harden.yaml` playbook to automate remediation with pre-built Ansible role:**
 ```bash
 ansible-playbook harden.yaml -vv
 ```
-- **Run `scan.sh` script to rescan and validate remediation:**
+**Run `scan.sh` script to rescan and validate remediation:**
 ```bash
 ./scan.sh
 ```
@@ -125,21 +156,15 @@ Opening the non-compliance html results we can determine::
 
 ## Further Hardening with Custom Ansible Playbook
 
-- **Run `custom.yaml` playbook to further harden the system:**
+**Run `custom.yaml` playbook to further harden the system:**
 ```bash
 ansible-playbook custom.yaml -vv
 ```
+The playbook will:
+  - Install collections from requirements file
+  - Generate root SSH keypair
 
-<details close>
-<summary> <h4>Playbook Breakdown</h4> </summary>
-    
-- Install collections from requirements file
-- Generate root SSH keypair
-</details>
-
-<br><br>
-
-- **Run `scan.sh` script to rescan and validate remediation:**
+**Run `scan.sh` script to rescan and validate remediation:**
 ```bash
 ./scan.sh
 ```
