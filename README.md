@@ -1,9 +1,7 @@
 ![STIG-Hardened](https://i.imgur.com/BsQNMcw.png)
 
 ## Project Overview
-- Identify which operating systems (RHEL, Windows Server, Ubuntu) and applications (Apache, SQL Server) need STIG compliance.
-- Determine the STIG benchmark version (latest from DISA cyber.mil).
-- Clarify if we are targeting DoD STIG Level 1 (basic security) or Level 2 (higher security with more restrictions).
+This project focuses on achieving STIG compliance for a Red Hat Enterprise Linux (RHEL) server. We automate scanning, remediation, and validation of compliance using `Ansible` and the `SCAP Compliance Checker (SCC)` tool from DISA.
 
 ## Components
 - **Control Node:** Rocky vm used to setup, scan, and remediate for stig compliance
