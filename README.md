@@ -48,8 +48,19 @@ Before we begin, ensure the following are prepared:
   <details close>
   <summary> <h4>Playbook Breakdown</h4> </summary>
     
-  - Install collections from requirements file
-  - Generate root SSH keypair
+    - Generates a SHA-512 hashed password and stores it as a fact for later use. Only runs on the control node.
+    - Ensures the Roles and scc directories exist with correct permissions
+    - Downloads STIG compliance files and the SCC tool bundle from DoD's website
+    - Extracts the downloaded Ansible STIG role into the SCC directory
+    - Moves the extracted RHEL 9 STIG role into the Roles directory
+    - Creates a Bash script (scan.sh) that remotely executes SCC on node1
+    - Adds the ansible user to all target RHEL 9 nodes with the pre-generated password hash
+    - Adds ansible user to /etc/sudoers.d/ with passwordless sudo access on RHEL 9 nodes
+    - Enables passwordless SSH access for the ansible user by copying the control node's public key to RHEL 9 nodes
+    - Transfers the SCC installation package from the control node to RHEL 9 nodes
+    - Installs SCC using dnf without GPG checks on RHEL 9 nodes
+    - Modifies ansible.cfg to disable the ask_pass setting
+    - Updates ansible.cfg to use ansible as the default remote user
 
   </details>
 
