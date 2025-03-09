@@ -52,9 +52,9 @@ The playbook will:
   - Creates a Bash script (scan.sh) that remotely executes SCC on node1
   - Adds the ansible user to all target RHEL 9 nodes with the pre-generated password hash
   - Adds ansible user to /etc/sudoers.d/ with passwordless sudo access on RHEL 9 nodes
-  - Enables passwordless SSH access for the ansible user by copying the control node's public key to RHEL 9 nodes
+  - Enables passwordless SSH access for the ansible user by generating and copying the control node's public key to RHEL 9 nodes
   - Transfers the SCC installation package from the control node to RHEL 9 nodes
-  - Installs SCC using dnf without GPG checks on RHEL 9 nodes
+  - Installs SCC using dnf on RHEL 9 nodes
   - Modifies ansible.cfg to disable the ask_pass setting
   - Updates ansible.cfg to use ansible as the default remote user
 
@@ -64,9 +64,12 @@ git --version
 ansible --version
 ll Roles scc
 cat scan.sh
+ansible rhel9 -m ping
 ansible rhel9 -m shell -a "cat /etc/passwd | grep -i ansible"
 ansible rhel9 -m shell -a "sudo cat /etc/sudoers.d/ansible"
-ansible rhel9 -m shell -a "sudo cat ~/.ssh/authorized
+ansible rhel9 -m shell -a "sudo cat ~/.ssh/authorized_keys"
+ansible rhel9 -m shell -a "sudo /opt/scc/cscc --version"
+cat ansible.cfg
 ```
 
 <details close>
