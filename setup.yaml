@@ -45,6 +45,12 @@
         #!/bin/bash
         ssh root@{{ hostvars['node1']['ansible_host'] }} sudo /opt/scc/cscc
     when: inventory_hostname in groups['local']
+  - name: generate root SSH keypair with the default values and no passphrase for control
+    community.crypto.openssh_keypair:
+      path: /root/.ssh/id_rsa
+      owner: root
+      group: root
+    when: inventory_hostname in groups['local']
   - name: create user
     user:
       name: ansible
