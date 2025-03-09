@@ -74,7 +74,7 @@ ansible rhel9 -m shell -a "sudo /opt/scc/cscc --version"
 <details close>
   <summary> <h3>Image Results</h3> </summary>
     
-![STIG-Hardened](https://i.imgur.com/E7iWTvv.png)
+![STIG-Hardened](https://i.imgur.com/BqTeHSI.png)
 
 - **Dependencies**:
   - Python 3.9.21 and pip are installed along with required libraries:
@@ -120,7 +120,9 @@ sudo /opt/scc/cscc --config
 <details close>
 <summary> <h3>Findings Summary</h3> </summary>
 
-![STIG-Hardened](https://i.imgur.com/BsQNMcw.png)
+![STIG-Hardened](https://i.imgur.com/urmgWhY.png) 
+![STIG-Hardened](https://i.imgur.com/kkRl1qK.png)
+
 
 Opening the non-compliance results at `/home/ansible/SCC/Sessions/` in a web browser, we can determine:
 - Summary bullet point
@@ -144,7 +146,9 @@ ansible-playbook harden.yaml -vv
 <details close>
 <summary> <h3>Findings Summary</h3> </summary>
 
-![STIG-Hardened](https://i.imgur.com/BsQNMcw.png)
+![STIG-Hardened](https://i.imgur.com/oYsFy9C.png)
+![STIG-Hardened](https://i.imgur.com/GeX8tJM.png)
+
 
 Opening the non-compliance html results we can determine::
 - Summary bullet point
@@ -183,7 +187,9 @@ The playbook will further remediate the following STIGs:
 <details close>
 <summary> <h3>Findings Summary</h3> </summary>
 
-![STIG-Hardened](https://i.imgur.com/BsQNMcw.png)
+![STIG-Hardened](https://i.imgur.com/b8gKXbR.png)
+![STIG-Hardened](https://i.imgur.com/BklOCMW.png)
+
 
 Opening the non-compliance html results we can determine::
 - Summary bullet point
