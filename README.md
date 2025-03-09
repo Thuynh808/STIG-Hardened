@@ -74,7 +74,7 @@ ansible rhel9 -m shell -a "sudo /opt/scc/cscc --version"
 <details close>
   <summary> <h3>Image Results</h3> </summary>
     
-![breach-tracker](https://i.imgur.com/E7iWTvv.png)
+![STIG-Hardened](https://i.imgur.com/E7iWTvv.png)
 
 - **Dependencies**:
   - Python 3.9.21 and pip are installed along with required libraries:
