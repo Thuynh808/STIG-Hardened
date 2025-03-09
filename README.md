@@ -72,7 +72,7 @@ ansible rhel9 -m shell -a "sudo /opt/scc/cscc --version"
 ```
 
 <details close>
-  <summary> <h3>Image Results</h3> </summary>
+<summary> <h3>Image Results</h3> </summary>
     
 ![STIG-Hardened](https://i.imgur.com/BqTeHSI.png)
 
