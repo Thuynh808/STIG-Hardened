@@ -61,7 +61,7 @@ The playbook will:
 **Confirm Successful Execution:**
 ```bash
 git --version
-ansible --version
+ansible --version | head -n 5
 ll Roles scc
 cat scan.sh
 ansible rhel9 -m ping
