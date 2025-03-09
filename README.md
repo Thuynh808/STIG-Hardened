@@ -60,15 +60,13 @@ The playbook will:
 
 **Confirm Successful Execution:**
 ```bash
+git --version
 ansible --version
-terraform --version
-podman --version
-python3 --version
-pip --version
-pip list | egrep -i "Flask|boto3|botocore|requests" 
-aws configure list
-aws sts get-caller-identity
-aws ecr list-images --repository-name breach-tracker --region us-east-1
+ll Roles scc
+cat scan.sh
+ansible rhel9 -m shell -a "cat /etc/passwd | grep -i ansible"
+ansible rhel9 -m shell -a "sudo cat /etc/sudoers.d/ansible"
+ansible rhel9 -m shell -a "sudo cat ~/.ssh/authorized
 ```
 
 <details close>
