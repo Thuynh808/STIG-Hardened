@@ -1,5 +1,5 @@
 ---
-- name: custom remediate
+- name: custom remediation
   hosts: rhel9
   become: true
   tasks:
