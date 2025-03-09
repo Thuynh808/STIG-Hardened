@@ -134,6 +134,7 @@ Opening the non-compliance html results we can determine::
 
 **Run `harden.yaml` playbook to automate remediation with pre-built Ansible role:**
 ```bash
+exit # return to control vm
 ansible-playbook harden.yaml -vv
 ```
 **Run `scan.sh` script to rescan and validate remediation:**
