@@ -14,30 +14,32 @@
 ## Prerequisites
 Before we begin, ensure the following are prepared:
 - 1 Rocky 9 VM
-- 1 RHEL 9 VM
+- 1 RHEL 9 VM with registered account for repository access 
 
+| Server            | Role                            | CPU | RAM  |
+|-------------------|---------------------------------|-----|------|
+| Control(Rocky 9)  | Management                      | 4   | 8 GB |
+| Node1(rhel 9)     | Target vm for compliance        | 4   | 8 GB |     
 
-| Server           | Role                            | CPU | RAM  |
-|------------------|---------------------------------|-----|------|
-| Control(Rocky 9)  | Management                     | 4   | 8 GB |
-| Node1(rhel 9)    | Target vm for compliance        | 4   | 8 GB |     
+> Note: Setup vms on same network. root password set to `password`
 
 ## Setup Environment
   
-- **Install `git` and `ansible-core`**
+- **Install `git` and `ansible-core`:**
 ```bash
 dnf install -y git ansible-core
 ```
-- **Clone the repository**
+- **Clone the repository and Install Ansible collections:**
 ```bash
 git clone https://github.com/Thuynh808/STIG-Hardened
 cd STIG-Hardened
+ansible-galaxy install -r requirements.yaml
 ```
-- **Configure inventory `hosts`**
+- **Configure inventory `hosts` with proper IPs:**
 ```bash
 vim inventory
 ```
-- **Run setup.yaml playbook**
+- **Run setup.yaml playbook:**
 ```bash
 ansible-playbook setup.yaml -vv
 ```
@@ -64,11 +66,11 @@ ansible-playbook setup.yaml -vv
 
 ## Configure and Perform Initial Scan
 
-- SSH into our rhel vm:
+- **SSH into our rhel vm:**
 ```bash
-ssh ansible@`<rhel-stig-ip>`
+ssh ansible@`<node1-ip>`
 ```
-- Configure scanning options:  
+- **Configure scanning options:**  
 ```bash
 sudo /opt/scc/cscc --config
 ```
@@ -99,15 +101,11 @@ Opening the non-compliance html results we can determine::
 
 ## Apply STIG Hardening Ansible Automation and Validate
 
-We'll use the ansible stig role for rhel9 to remediate the non-compliant tests and rescan
-
 - **Run `harden.yaml` playbook to automate remediation:**
-
 ```bash
 ansible-playbook harden.yaml -vv
 ```
 - **Run `scan.sh` script to rescan and validate remediation:**
-
 ```bash
 ./scan.sh
 ```
