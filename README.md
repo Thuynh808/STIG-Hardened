@@ -122,7 +122,7 @@ sudo /opt/scc/cscc --config
 
 ![STIG-Hardened](https://i.imgur.com/BsQNMcw.png)
 
-Opening the non-compliance html results we can determine::
+Opening the non-compliance results at `/home/ansible/SCC/Sessions/` in a web browser, we can determine:
 - Summary bullet point
 - summary thoughts of analysis
 - summary predictions
