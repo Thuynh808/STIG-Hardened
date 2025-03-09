@@ -69,7 +69,6 @@ ansible rhel9 -m shell -a "cat /etc/passwd | grep -i ansible"
 ansible rhel9 -m shell -a "sudo cat /etc/sudoers.d/ansible"
 ansible rhel9 -m shell -a "sudo cat ~/.ssh/authorized_keys"
 ansible rhel9 -m shell -a "sudo /opt/scc/cscc --version"
-cat ansible.cfg
 ```
 
 <details close>
