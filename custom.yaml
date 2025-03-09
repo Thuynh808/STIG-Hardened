@@ -116,37 +116,3 @@
     systemd:
       name: sshd
       state: restarted
- 
-
-  - name: Enable Page Poisoning
-    command: grubby --update-kernel=ALL --args="page_poison=1"
-    changed_when: true
-
-  - name: Disable Virtual System Calls
-    command: grubby --update-kernel=ALL --args="vsyscall=none"
-    changed_when: true
-
-  - name: Enable SLUB/SLAB Object Poisoning
-    command: grubby --update-kernel=ALL --args="slub_debug=P"
-    changed_when: true
-
-  - name: Ensure GRUB settings persist across kernel updates
-    replace:
-      path: /etc/default/grub
-      regexp: '^(GRUB_CMDLINE_LINUX=".*)"'
-      replace: '\1 page_poison=1 vsyscall=none slub_debug=P"'
-      backup: yes
-
-  - name: Regenerate GRUB configuration (EFI-based systems)
-    command: grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
-    when: ansible_facts['cmdline']['BOOT_IMAGE'] is search("efi")
-
-  - name: Regenerate GRUB configuration (Legacy BIOS systems)
-    command: grub2-mkconfig -o /boot/grub2/grub.cfg
-    when: ansible_facts['cmdline']['BOOT_IMAGE'] is not search("efi")
-
-  - name: Reboot to apply changes
-    reboot:
-      msg: "Rebooting to apply GRUB security settings"
-      pre_reboot_delay: 5
-
