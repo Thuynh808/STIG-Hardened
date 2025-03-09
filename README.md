@@ -25,44 +25,42 @@ Before we begin, ensure the following are prepared:
 ## Setup Environment
   
 - **Install `git` and `ansible-core`**
-  
-  ```bash
-  dnf install -y git ansible-core
-  ```
+```bash
+dnf install -y git ansible-core
+```
 - **Clone the repository**
-  
-  ```bash
-  git clone https://github.com/Thuynh808/STIG-Hardened
-  cd STIG-Hardened
-  ```
+```bash
+git clone https://github.com/Thuynh808/STIG-Hardened
+cd STIG-Hardened
+```
 - **Configure inventory `hosts`**
-  
-  ```bash
-  vim inventory
-  ```
+```bash
+vim inventory
+```
 - **Run setup.yaml playbook**
-  
-  ```bash
-  ansible-playbook setup.yaml -vv
-  ```
+```bash
+ansible-playbook setup.yaml -vv
+```
+
   <details close>
   <summary> <h4>Playbook Breakdown</h4> </summary>
     
-    - Generates a SHA-512 hashed password and stores it as a fact for later use. Only runs on the control node.
-    - Ensures the Roles and scc directories exist with correct permissions
-    - Downloads STIG compliance files and the SCC tool bundle from DoD's website
-    - Extracts the downloaded Ansible STIG role into the SCC directory
-    - Moves the extracted RHEL 9 STIG role into the Roles directory
-    - Creates a Bash script (scan.sh) that remotely executes SCC on node1
-    - Adds the ansible user to all target RHEL 9 nodes with the pre-generated password hash
-    - Adds ansible user to /etc/sudoers.d/ with passwordless sudo access on RHEL 9 nodes
-    - Enables passwordless SSH access for the ansible user by copying the control node's public key to RHEL 9 nodes
-    - Transfers the SCC installation package from the control node to RHEL 9 nodes
-    - Installs SCC using dnf without GPG checks on RHEL 9 nodes
-    - Modifies ansible.cfg to disable the ask_pass setting
-    - Updates ansible.cfg to use ansible as the default remote user
-
+  - Generates a SHA-512 hashed password and stores it as a fact for later use. Only runs on the control node.
+  - Ensures the Roles and scc directories exist with correct permissions
+  - Downloads STIG compliance files and the SCC tool bundle from DoD's website
+  - Extracts the downloaded Ansible STIG role into the SCC directory
+  - Moves the extracted RHEL 9 STIG role into the Roles directory
+  - Creates a Bash script (scan.sh) that remotely executes SCC on node1
+  - Adds the ansible user to all target RHEL 9 nodes with the pre-generated password hash
+  - Adds ansible user to /etc/sudoers.d/ with passwordless sudo access on RHEL 9 nodes
+  - Enables passwordless SSH access for the ansible user by copying the control node's public key to RHEL 9 nodes
+  - Transfers the SCC installation package from the control node to RHEL 9 nodes
+  - Installs SCC using dnf without GPG checks on RHEL 9 nodes
+  - Modifies ansible.cfg to disable the ask_pass setting
+  - Updates ansible.cfg to use ansible as the default remote user
   </details>
+
+---
 
 ## Configure and Perform Initial Scan
 
@@ -86,7 +84,8 @@ sudo /opt/scc/cscc --config
 - Hit `0` and `Enter` to return to the main menu
 - Hit `9` and `Enter` to exit, save changes, and perform scan
 
-### Findings Summary
+<details close>
+<summary> <h3>Findings Summary</h3> </summary>
 
 ![STIG-Hardened](https://i.imgur.com/BsQNMcw.png)
 
@@ -94,74 +93,71 @@ Opening the non-compliance html results we can determine::
 - Summary bullet point
 - summary thoughts of analysis
 - summary predictions
+</details>
 
-## Apply STIG Hardening Ansible Automation
+---
 
-We'll use the ansible stig role for rhel9 to remediate the non-compliant tests
+## Apply STIG Hardening Ansible Automation and Validate
 
-Run:
+We'll use the ansible stig role for rhel9 to remediate the non-compliant tests and rescan
+
+- **Run `harden.yaml` playbook to automate remediation:**
+
 ```bash
 ansible-playbook harden.yaml -vv
 ```
-  <details close>
-  <summary> <h4>Playbook Breakdown</h4> </summary>
-    
-  - Install collections from requirements file
-  - Generate root SSH keypair
+- **Run `scan.sh` script to rescan and validate remediation:**
 
-  </details>
-
-## Perform Post-Hardening Validation
-
-Run:
 ```bash
 ./scan.sh
 ```
-  <details close>
-  <summary> <h4>Script Breakdown</h4> </summary>
-    
-  - Install collections from requirements file
-  - Generate root SSH keypair
 
-  </details>
-
-### Findings Summary
+<details close>
+<summary> <h3>Findings Summary</h3> </summary>
 
 ![STIG-Hardened](https://i.imgur.com/BsQNMcw.png)
 
-Results from our scan post-hardened:
+Opening the non-compliance html results we can determine::
 - Summary bullet point
 - summary thoughts of analysis
 - summary predictions
+</details>
+
+---
 
 ## Further Hardening with Custom Ansible Playbook
 
-Run `custom.yaml` playbook to further harden the system:
+- **Run `custom.yaml` playbook to further harden the system:**
 ```bash
 ansible-playbook custom.yaml -vv
 ```
-  <details close>
-  <summary> <h4>Playbook Breakdown</h4> </summary>
+
+<details close>
+<summary> <h4>Playbook Breakdown</h4> </summary>
     
-  - Install collections from requirements file
-  - Generate root SSH keypair
+- Install collections from requirements file
+- Generate root SSH keypair
+</details>
 
-  </details>
+<br><br>
 
-## Final Validation
-
-Run:
+- **Run `scan.sh` script to rescan and validate remediation:**
 ```bash
 ./scan.sh
 ```
-### Findings Summary
+
+<details close>
+<summary> <h3>Findings Summary</h3> </summary>
 
 ![STIG-Hardened](https://i.imgur.com/BsQNMcw.png)
 
-Results from our third scan:
+Opening the non-compliance html results we can determine::
 - Summary bullet point
 - summary thoughts of analysis
 - summary predictions
+</details>
+
+---
 
 ## Conclusion
 
