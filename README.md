@@ -87,7 +87,91 @@ sudo /opt/scc/cscc --config
 - Hit `0` and `Enter` to return to the main menu
 - Hit `9` and `Enter` to exit, save changes, and perform scan
 
----
+## Findings Summary
+
+Lets view the results by opening the non compliance html file in a browser. 
+
+![STIG-Hardened](https://i.imgur.com/BsQNMcws.png)
+
+- Summary bullet point
+- summary thoughts of analysis
+- summary predictions
+
+## Apply STIG Hardening Ansible Automation
+
+We'll use the ansible stig role for rhel9 to remediate the non-compliant tests
+
+Run:
+```bash
+ansible-playbook harden.yaml -vv
+```
+  <details close>
+  <summary> <h4>Playbook Breakdown</h4> </summary>
+    
+  - Install collections from requirements file
+  - Generate root SSH keypair
+
+  </details>
+
+## Perform Post-Hardening Validation
+
+Run:
+```bash
+./scan.sh
+```
+  <details close>
+  <summary> <h4>Script Breakdown</h4> </summary>
+    
+  - Install collections from requirements file
+  - Generate root SSH keypair
+
+  </details>
+  
+![STIG-Hardened](https://i.imgur.com/BsQNMcws.png)
+
+- Summary bullet point
+- summary thoughts of analysis
+- summary predictions
+
+## Further Hardening with Custom Ansible Playbook
+
+Run `custom.yaml` playbook to further harden the system:
+```bash
+ansible-playbook custom.yaml -vv
+```
+  <details close>
+  <summary> <h4>Playbook Breakdown</h4> </summary>
+    
+  - Install collections from requirements file
+  - Generate root SSH keypair
+
+  </details>
+
+## Final Validation
+
+Run:
+```bash
+./scan.sh
+```
+  <details close>
+  <summary> <h4>Script Breakdown</h4> </summary>
+    
+  - Install collections from requirements file
+  - Generate root SSH keypair
+
+  </details>
+  
+![STIG-Hardened](https://i.imgur.com/BsQNMcws.png)
+
+- Summary bullet point
+- summary thoughts of analysis
+- summary predictions
+
+## Conclusion
+
+- ✅ Post-STIG Compliance Report (before/after results comparison)
+- ✅ STIG Compliance Summary – Demonstrating compliance improvement.
+
 
 
 
