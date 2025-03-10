@@ -213,3 +213,7 @@ This project successfully demonstrates a **realistic**, **automated workflow** f
 - **Demonstrated Progress**: Improved from a **35.4% compliance score** to over **80%**, showing significant remediation and system hardening
 - **Actionable Framework**: Established an **automated, repeatable process** for scanning, remediating, and validating STIG compliance
 - **Future Considerations**: While **82% compliance** is sufficient for **demonstration and practice**, further remediation of remaining findings can be performed based on **specific organizational or mission requirements**
+
+> ⚠️ Disclaimer:
+> SCC is an official DISA-provided tool available only to authorized DoD personnel, contractors, and approved organizations via cyber.mil.
+> No SCC software or full reports are distributed with this project. This project is intended for personal use and skills demonstration only, and to showcase familiarity with DISA STIG compliance processes.
