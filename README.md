@@ -18,8 +18,8 @@ Before we begin, ensure the following are prepared:
 
 | Server            | Role                              | CPU | RAM  |
 |-------------------|-----------------------------------|-----|------|
-| Control (Rocky 9) | Management Node                   | 4   | 8 GB |
-| Node1 (rhel 9)    | Target System for STIG Compliance | 4   | 8 GB |     
+| Control (Rocky9)  | Management Node                   | 4   | 8 GB |
+| Node1 (RHEL9)     | Target System for STIG Compliance | 4   | 8 GB |     
 
 > Note: VMs should be on the same network. Set the root password as *`password`* for initial setup
 <br>
