@@ -4,7 +4,7 @@
 This project focuses on achieving STIG compliance for a Red Hat Enterprise Linux (RHEL) server. We automate scanning, remediation, and validation of compliance using `Ansible` and the `SCAP Compliance Checker (SCC)` tool from DISA.
 
 ## Components
-- **Control Node:** Rocky Linux 9 VM responsible for orchestrating scans and applying STIG compliance via `Ansible`
+- **Control Node:** Rocky Linux 9 VM responsible for orchestrating scans and applying STIG compliance via Ansible
 - **Target Node (Node1):** RHEL 9 VM targeted for STIG compliance scanning and remediation
 - **Ansible:** Automation tool used to manage setup, scanning, and remediation via playbooks and roles
 - **SCC:** Official DISA-provided tool to scan systems for STIG compliance
@@ -93,7 +93,7 @@ ansible rhel9 -m shell -a "sudo /opt/scc/cscc --version"
 
 **SSH into our rhel vm:**
 ```bash
-ssh ansible@`<node1-ip>`
+ssh ansible@<node1-ip>
 ```
 **Configure scanning options:**  
 ```bash
@@ -125,6 +125,7 @@ Opening the non-compliance results at `/home/ansible/SCC/Sessions/` in a web bro
 </details>
 
 ---
+<br>
 
 ## Apply STIG Hardening Ansible Role and Validate
 
@@ -151,6 +152,7 @@ Opening the non-compliance html results we can determine::
 </details>
 
 ---
+<br>
 
 ## Further Hardening with Custom Ansible Playbook
 
@@ -192,6 +194,7 @@ Opening the non-compliance html results we can determine::
 </details>
 
 ---
+<br>
 
 ## Conclusion
 
