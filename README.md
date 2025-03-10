@@ -4,22 +4,25 @@
 This project focuses on achieving STIG compliance for a Red Hat Enterprise Linux (RHEL) server. We automate scanning, remediation, and validation of compliance using `Ansible` and the `SCAP Compliance Checker (SCC)` tool from DISA.
 
 ## Components
-- **Control Node:** Rocky vm used to setup, scan, and remediate for stig compliance
-- **Node1:** Rhel9 vm as our target machine to make stig compliant
-- **Ansible:** to automate setup, scan, and remediate with playbooks
-- **SCC:** scap scanner for scanner for compliance
+- **Control Node:** Rocky Linux 9 VM responsible for orchestrating scans and applying STIG compliance via `Ansible`
+- **Target Node (Node1):** RHEL 9 VM targeted for STIG compliance scanning and remediation
+- **Ansible:** Automation tool used to manage setup, scanning, and remediation via playbooks and roles
+- **SCC:** Official DISA-provided tool to scan systems for STIG compliance
+- **RHEL 9 STIG:** Benchmark Version 2.2.3, based on STIG Manual Version 2.2, dated 2024-10-28 (Benchmark Date: 2024-10-24)
+    
 
 ## Prerequisites
 Before we begin, ensure the following are prepared:
 - 1 Rocky 9 VM
 - 1 RHEL 9 VM with registered account for repository access 
 
-| Server            | Role                            | CPU | RAM  |
-|-------------------|---------------------------------|-----|------|
-| Control(Rocky 9)  | Management                      | 4   | 8 GB |
-| Node1(rhel 9)     | Target vm for compliance        | 4   | 8 GB |     
+| Server            | Role                              | CPU | RAM  |
+|-------------------|-----------------------------------|-----|------|
+| Control(Rocky 9)  | Management / Orchestration Node   | 4   | 8 GB |
+| Node1(rhel 9)     | Target System for STIG Compliance | 4   | 8 GB |     
 
-> Note: Setup vms on same network. root password set to `password`
+> Note: VMs should be on the same network. Set the root password as *`password`* for initial setup
+<br>
 
 ## Setup Environment
   
