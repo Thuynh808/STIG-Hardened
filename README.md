@@ -1,4 +1,4 @@
-![STIG-Hardened](https://i.imgur.com/BsQNMcw.png)
+![STIG-Hardened](https://i.imgur.com/dhp33At.png)
 
 ## Project Overview
 This project focuses on achieving at least 80% STIG compliance for a Red Hat Enterprise Linux (RHEL) server. We automate scanning, remediation, and validation of compliance using `Ansible` and the `SCAP Compliance Checker (SCC)` tool from DISA.
