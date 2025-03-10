@@ -77,20 +77,13 @@ ansible rhel9 -m shell -a "sudo /opt/scc/cscc --version"
     
 ![STIG-Hardened](https://i.imgur.com/BqTeHSI.png)
 
-- **Dependencies**:
-  - Python 3.9.21 and pip are installed along with required libraries:
-    - boto3
-    - botocore
-    - Flask
-    - requests 
-  - Ansible 2.15.13  installed, configured, and ready for use
-  - Terraform 1.10.5 installed and functional
-  - Podman 5.2.2 installed for container management
-- **AWS CLI Configuration**:
-  - AWS credentials are set up using a shared credentials file, and the region is configured as us-east-1
-  - The IAM user is verified via sts get-caller-identity, confirming its UserId, Account, and ARN
-- **ECR Repository Status**:
-  - Amazon Elastic Container Registry (ECR) repository named `breach-tracker` exists, and tagged as `breach-tracker-latest`
+- ✅ **Verified Git and Ansible installations**: Confirmed git version 2.43.5 and ansible core 2.14.17
+- ✅ **Roles and SCC directories**: `Roles/` contains `rhel9STIG` role, and `scc/` contains Ansible files, SCC package, and STIG documentation
+- ✅ **scan.sh script created**: Script designed to run SCC remotely over SSH, shown with correct syntax and permissions
+- ✅ **Ansible and user setup validated**: Successful ping response from `rhel9` target and correct ansible user presence in `/etc/passwd`
+- ✅ **Sudo configured for Ansible user**: Verified entry in `/etc/sudoers.d/ansible` allowing `NOPASSWD:ALL` access
+- ✅ **Passwordless SSH confirmed**: Public SSH key properly installed in `~/.ssh/authorized_keys` on rhel9 target
+- ✅ **SCC tool installed**: Verified `/opt/scc/cscc` version output showing correct installation
 </details>
 
 ---
