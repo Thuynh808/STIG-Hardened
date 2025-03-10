@@ -207,5 +207,9 @@ The playbook will further remediate the following STIGs:
 
 ## Conclusion
 
-- ✅ Post-STIG Compliance Report (before/after results comparison)
-- ✅ STIG Compliance Summary – Demonstrating compliance improvement.
+This project successfully demonstrates a **realistic**, **automated workflow** for achieving STIG compliance on a RHEL 9 system using **Ansible and SCC**. Through multiple rounds of scanning, remediation, and validation, we met our target compliance goal and showcased a practical approach to system hardening aligned with DISA STIG standards.
+
+- **Achieved Goal**: Successfully reached **82.18% STIG compliance**, meeting and exceeding the **80%** compliance goal set for this project
+- **Demonstrated Progress**: Improved from a **35.4% compliance score** to over **80%**, showing significant remediation and system hardening
+- **Actionable Framework**: Established an **automated, repeatable process** for scanning, remediating, and validating STIG compliance
+- **Future Considerations**: While **82% compliance** is sufficient for **demonstration and practice**, further remediation of remaining findings can be performed based on **specific organizational or mission requirements**
