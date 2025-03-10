@@ -169,19 +169,19 @@ The following playbook addresses additional STIG findings that were not fully re
 ansible-playbook custom.yaml -vv
 ```
 The playbook will further remediate the following STIGs:
-  - **V-258018**: No unattended/automatic GUI login
-  - **V-258094**: No null passwords
-  - **V-257811**: Restrict ptrace usage
-  - **V-257850, V-257851, V-257852**: Harden /home filesystem
-  - **V-257861**: Harden /boot filesystem
-  - **V-258125**: Ensure pcscd active
-  - **V-258072, V-258073**: Enforce shell default permissions (umask)
-  - **V-258068, V-258077**: Idle session auto-logout
+  - **V-258018**: Disable unattended/automatic GUI login
+  - **V-258094**: Disallow null passwords
+  - **V-257811**: Restrict `ptrace` usage
+  - **V-257850, V-257851, V-257852**: Harden `/home` filesystem
+  - **V-257861**: Harden `/boot` filesystem
+  - **V-258125**: Ensure `pcscd` active
+  - **V-258072, V-258073**: Enforce default shell permissions (`umask`)
+  - **V-258068, V-258077**: Configure idle session auto-logout
   - **V-258007**: Disable X11 forwarding over SSH
-  - **V-257985**: Disable remote SSH root login
-  - **V-258042**: Password lifetime restriction (max 60 days)
-  - **V-258105**: Minimum password lifetime (24 hours)
-  - **V-258088**: Restrict su command to wheel
+  - **V-257985**: Disable SSH root login
+  - **V-258042**: Enforce password maximum lifetime (60 days)
+  - **V-258105**: Enforce minimum password lifetime (24 hours)
+  - **V-258088**: Restrict `su` command to `wheel` group
 
 **Run `scan.sh` script to rescan and validate remediation:**
 ```bash
